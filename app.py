@@ -30,7 +30,6 @@ def calc_is_prime(number):
 @app.route("/slack-alert/<string:message>")
 def post_slack_alert(message):
     response = False
-    decoded_message = message.replace("%20", " ")
     return jsonify(input=message, output=response)
 
 if __name__ == "__main__":
