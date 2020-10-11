@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from flask import Flask
+from flask import Flask, Response, jsonify
 
 DEBUG = True
 app = Flask(__name__)
@@ -7,25 +7,30 @@ slack_app = None
 slack_app_id = None
 
 # Flask Methods
-@app.route("/md5")
+@app.route("/md5/<string:data_to_hash>")
 def calc_md5(data_to_hash):
-    return ""
+   hash = ""
+   return jsonify(input=data_to_hash, output=hash)
 
-@app.route("/factorial")
+@app.route("/factorial/<int:number>")
 def calc_factorial(number):
-    return 0
+    factorial = 0
+    return jsonify(input=number, output=factorial)
 
-@app.route("/fibonacci")
+@app.route("/fibonacci/<int:number>")
 def calc_fibonacci(number):
-    return 0
+    fibonacci = 0
+    return jsonify(input=number, output=fibonacci)
 
-@app.route("/is-prime")
+@app.route("/is-prime/<int:number>")
 def calc_is_prime(number):
-    return False
+    is_prime = False
+    return jsonify(input=number, output=is_prime)
 
-@app.route("/slack-alert")
+@app.route("/slack-alert/<string:message>")
 def post_slack_alert(message):
-    return False
+    response = False
+    return jsonify(input=message, output=response)
 
 if __name__ == "__main__":
     SLACK_KEY = None
