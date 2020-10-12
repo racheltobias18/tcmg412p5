@@ -7,7 +7,6 @@ from slack import WebClient
 DEBUG = True
 app = Flask(__name__)
 slack_app = None
-slack_app_id = None
 
 # Flask Methods
 @app.route("/md5/<string:data_to_hash>")
@@ -32,7 +31,7 @@ def calc_is_prime(number):
 
 @app.route("/slack-alert/<string:message>")
 def post_slack_alert(message):
-    response = slack_app.chat_postMessage(channel='#group-4-app', text=message, user="Group4 Alert Bot")
+    response = slack_app.chat_postMessage(channel='#group-4', text=message)
     return jsonify(input=message, output=response["ok"])
 
 if __name__ == "__main__":
@@ -45,13 +44,7 @@ if __name__ == "__main__":
         if DEBUG == False:
             exit(1)
     else:
+        print("Connecting to Slack App with Key ", SLACK_KEY)
         slack_app = WebClient(SLACK_KEY)
-        if slack_app.rtm_connect(with_team_state=False):
-            slack_app_id = slack_app.api_call("auth.test")["user_id"]
-            print("Slack App connected with ID: ", slack_app_id)
-        else:
-            print("ERROR: Could not connect App to Slack!")
-            if DEBUG == False:
-                exit(1)
     print("Launching Flask App.")
     app.run(host="0.0.0.0")
