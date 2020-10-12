@@ -2,7 +2,6 @@
 from flask import Flask, Response, jsonify
 from slack import WebClient
 
-DEBUG = True
 FLASK_APP = Flask(__name__)
 SLACK_APP = None
 
@@ -36,11 +35,9 @@ if __name__ == "__main__":
     print("Attempting to read Slack App Key from slack.key file...")
     SLACK_KEY = None
     for l in open("slack.key"):
-        SLACK_KEY = l
-    if SLACK_KEY == None or len(SLACK_KEY) <= 0:
+        SLACK_KEY = l.replace(" ", "")
+    if SLACK_KEY == None or len(SLACK_KEY) < 55:
         print("ERROR: Could not read Slack App Key from slack.key file!")
-        if DEBUG == False:
-            exit(1)
     else:
         print("Connecting to Slack App with Key ", SLACK_KEY)
         SLACK_APP = WebClient(SLACK_KEY)
