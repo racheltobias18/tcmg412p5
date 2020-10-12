@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 from flask import Flask, Response, jsonify
+import os
+import re
+from slack import WebClient
 
 DEBUG = True
 app = Flask(__name__)
 slack_app = None
-slack_app_id = None
 
 # Flask Methods
 @app.route("/md5/<string:data_to_hash>")
@@ -29,11 +31,20 @@ def calc_is_prime(number):
 
 @app.route("/slack-alert/<string:message>")
 def post_slack_alert(message):
-    response = False
-    return jsonify(input=message, output=response)
+    response = slack_app.chat_postMessage(channel='#group-4', text=message)
+    return jsonify(input=message, output=response["ok"])
 
 if __name__ == "__main__":
+    print("Attempting to read Slack App Key from slack.key file...")
     SLACK_KEY = None
     for l in open("slack.key"):
         SLACK_KEY = l
+    if SLACK_KEY == None or len(SLACK_KEY) <= 0:
+        print("ERROR: Could not read Slack App Key from slack.key file!")
+        if DEBUG == False:
+            exit(1)
+    else:
+        print("Connecting to Slack App with Key ", SLACK_KEY)
+        slack_app = WebClient(SLACK_KEY)
+    print("Launching Flask App.")
     app.run(host="0.0.0.0")
