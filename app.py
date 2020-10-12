@@ -3,33 +3,33 @@ from flask import Flask, Response, jsonify
 from slack import WebClient
 
 DEBUG = True
-app = Flask(__name__)
-slack_app = None
+FLASK_APP = Flask(__name__)
+SLACK_APP = None
 
 # Flask Methods
-@app.route("/md5/<string:data_to_hash>")
+@FLASK_APP.route("/md5/<string:data_to_hash>")
 def calc_md5(data_to_hash):
    hash = ""
    return jsonify(input=data_to_hash, output=hash)
 
-@app.route("/factorial/<int:number>")
+@FLASK_APP.route("/factorial/<int:number>")
 def calc_factorial(number):
     factorial = 0
     return jsonify(input=number, output=factorial)
 
-@app.route("/fibonacci/<int:number>")
+@FLASK_APP.route("/fibonacci/<int:number>")
 def calc_fibonacci(number):
     fibonacci = 0
     return jsonify(input=number, output=fibonacci)
 
-@app.route("/is-prime/<int:number>")
+@FLASK_APP.route("/is-prime/<int:number>")
 def calc_is_prime(number):
     is_prime = False
     return jsonify(input=number, output=is_prime)
 
-@app.route("/slack-alert/<string:message>")
+@FLASK_APP.route("/slack-alert/<string:message>")
 def post_slack_alert(message):
-    response = slack_app.chat_postMessage(channel='#group-4', text=message)
+    response = SLACK_APP.chat_postMessage(channel='#group-4', text=message)
     return jsonify(input=message, output=response["ok"])
 
 if __name__ == "__main__":
@@ -43,6 +43,6 @@ if __name__ == "__main__":
             exit(1)
     else:
         print("Connecting to Slack App with Key ", SLACK_KEY)
-        slack_app = WebClient(SLACK_KEY)
+        SLACK_APP = WebClient(SLACK_KEY)
     print("Launching Flask App.")
-    app.run(host="0.0.0.0")
+    FLASK_APP.run(host="0.0.0.0")
