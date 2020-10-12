@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 from flask import Flask, Response, jsonify
-import os
-import re
 from slack import WebClient
 
 DEBUG = True
