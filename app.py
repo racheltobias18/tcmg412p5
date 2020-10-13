@@ -51,6 +51,22 @@ def calc_fibonacci(number):
 @FLASK_APP.route("/is-prime/<int:number>")
 def calc_is_prime(number):
     is_prime = False
+    is_integer = isinstance(number, int)        # checks if input is an integer
+    if is_integer == True:                      # runs the following code if the input is an integer
+        if number > 1:
+            for i in range(2, number):
+                 if (number % i) == 0:
+                    break
+            else:
+                ir_prime = True
+        elif number == 1:
+                is_prime = False
+        elif number == 0:
+                is_prime = True
+        else:
+                print(number, "is a negative integer and is an invalid input. Please enter an integer greater than 1.")
+    else:
+        print(number, "is a float and is an invalid input. Please enter an integer.")    
     return jsonify(input=number, output=is_prime)
 
 @FLASK_APP.route("/slack-alert/<string:message>")
