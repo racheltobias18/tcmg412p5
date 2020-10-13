@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 from flask import Flask, Response, jsonify
 from slack import WebClient
+import hashlib
 
 FLASK_APP = Flask(__name__)
 SLACK_APP = None
@@ -8,8 +9,13 @@ SLACK_APP = None
 # Flask Methods
 @FLASK_APP.route("/md5/<string:data_to_hash>")
 def calc_md5(data_to_hash):
-   hash = ""
-   return jsonify(input=data_to_hash, output=hash)
+    #encode string for hash
+    hash = data_to_hash.encode("utf-8")
+    #convert to hash
+    hash = hashlib.md5( hash )
+    #return code in new format
+    hash = hash.digest()
+    return jsonify(input=data_to_hash, output=hash)
 
 @FLASK_APP.route("/factorial/<int:number>")
 def calc_factorial(number):
