@@ -24,7 +24,6 @@ def calc_factorial(number):
 
 @FLASK_APP.route("/fibonacci/<int:number>")
 def calc_fibonacci(number):
-    
     fibonacci = []
     c1 = 0
     c2 = 1
@@ -32,11 +31,9 @@ def calc_fibonacci(number):
     check = 0
     
     if number < 0:
-        fibonacci = "Error: Please use a number greater or equal to 0"
-    
+        return jsonify(input=number, output="Error: Please use a number greater or equal to 0")
     elif number == 0:
-        fibonacci = 0
-    
+        fibonacci = [0]
     else:
         while check == 0:
             fib = c1 + c2
@@ -54,14 +51,14 @@ def calc_is_prime(number):
     if is_integer == True:
         if number > 1:
             for i in range(2, number):
-                 if (number % i) == 0:
+                if (number % i) == 0:
                     return jsonify(input=number, output=False)
         elif number == 1:
-                return jsonify(input=number, output=False)
+            return jsonify(input=number, output=False)
         elif number == 0:
-                return jsonify(input=number, output=True)
+            return jsonify(input=number, output=True)
         else:
-                return jsonify(input=number, output="Input is a negative integer and is invalid. Please enter a positive integer.")
+            return jsonify(input=number, output="Input is a negative integer and is invalid. Please enter a positive integer.")
     else:
         return jsonify(input=number, output="Input is a float and is invalid. Please enter an integer.")    
     return jsonify(input=number, output=True)
