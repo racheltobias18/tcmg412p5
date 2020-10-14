@@ -20,7 +20,7 @@ def calc_md5(data_to_hash):
 @FLASK_APP.route("/factorial/<int:number>")
 def calc_factorial(number):
     factorial = 0
-    if nummber < 0:
+    if number < 0:
         return jsonify(input=number, output="Error: factorial does not exist for negative numbers")
     elif number == 0:
         return jsonify(input=number, output="The factorial of 0 is 1")
