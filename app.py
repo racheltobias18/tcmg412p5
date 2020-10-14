@@ -31,7 +31,7 @@ def calc_factorial(number):
 
 @FLASK_APP.route("/fibonacci/<int:number>")
 def calc_fibonacci(number):
-    fibonacci = []
+    fibonacci = [0]
     c1 = 0
     c2 = 1
     fib = 0
