@@ -15,6 +15,7 @@ def calc_md5(data_to_hash):
     hash = hashlib.md5( hash )
     #return code in new format
     hash = hash.digest()
+    hash = str(hash)
     return jsonify(input=data_to_hash, output=hash)
 
 @FLASK_APP.route("/factorial/<int:number>")
