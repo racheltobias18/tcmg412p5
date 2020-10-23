@@ -23,7 +23,7 @@ def calc_factorial(number):
     if number < 0:
         return jsonify(input=number, output="Error: factorial does not exist for negative numbers")
     elif number == 0:
-        return jsonify(input=number, output="The factorial of 0 is 1")
+        return jsonify(input=number, output=1)
     else:
         for i in range(1,number+1):
             factorial = factorial*i
