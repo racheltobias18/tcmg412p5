@@ -11,7 +11,13 @@ SLACK_APP = None
 # Flask Methods
 @FLASK_APP.route("/keyval/<string:key_str>/<string:val>", methods=["POST"])
 def post_value(key_str, val):
-    return jsonify(key=key_str, value=val, command="", result=True)
+    cmd = "POST " + key_str + "/" + val
+    if REDIS.exists(key_str):
+        return jsonify(key=key_str, value=val, command=cmd, result=False, error="Unable to add pair: key already exists."), 409
+    return_code = REDIS.set(key_str, val)
+    if return_code is False:
+        return jsonify(key=key_str, value=val, command=cmd, result=False, error="Unable to add pair: I/O Error!"), 400
+    return jsonify(key=key_str, value=val, command=cmd, result=True, error=""), 200
 
 @FLASK_APP.route("/keyval/<string:key>", methods=["GET"])
 def get_value(key_str):
