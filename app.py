@@ -2,11 +2,29 @@
 from flask import Flask, Response, jsonify
 from slack import WebClient
 import hashlib
+import redis
 
 FLASK_APP = Flask(__name__)
+REDIS = None
 SLACK_APP = None
 
 # Flask Methods
+@FLASK_APP.route("/keyval/<string:key_str>/<string:val>", methods=["POST"])
+def post_value(key_str, val):
+    return jsonify(key=key_str, value=val, command="", result=True)
+
+@FLASK_APP.route("/keyval/<string:key>", methods=["GET"])
+def get_value(key_str):
+    return jsonify(key=key_str, value=val, command="", result=True)
+
+@FLASK_APP.route("/keyval/<string:key_str>/<string:val>", methods=["PUT"])
+def put_value(key_str, value):
+    return jsonify(key=key_str, value=val, command="", result=True)
+
+@FLASK_APP.route("/keyval/<string:key_str>", methods=["DELETE"])
+def delete_value(key_str):
+    return jsonify(key=key_str, value=val, command="", result=True)
+
 @FLASK_APP.route("/md5/<string:data_to_hash>")
 def calc_md5(data_to_hash):
     #encode string for hash
@@ -36,7 +54,7 @@ def calc_fibonacci(number):
     c2 = 1
     fib = 0
     check = 0
-    
+
     if number < 0:
         return jsonify(input=number, output="Error: Please use a number greater or equal to 0")
     elif number == 0:
@@ -85,5 +103,7 @@ if __name__ == "__main__":
     else:
         print("Connecting to Slack App with Key ", SLACK_KEY)
         SLACK_APP = WebClient(SLACK_KEY)
+    print("Connecting to REDIS Server @ 127.0.0.1:6379")
+    REDIS = redis.Redis()
     print("Launching Flask App.")
     FLASK_APP.run(host="0.0.0.0")
