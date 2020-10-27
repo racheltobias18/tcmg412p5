@@ -21,15 +21,15 @@ def post_value(key_str, val):
 
 @FLASK_APP.route("/keyval/<string:key_str>", methods=["GET"])
 def get_value(key_str):
-    return jsonify(key=key_str, value=val, command="", result=True)
+    return jsonify(key=key_str, value=val, command="", result=True, error=""), 200
 
 @FLASK_APP.route("/keyval/<string:key_str>/<string:val>", methods=["PUT"])
 def put_value(key_str, val):
-    return jsonify(key=key_str, value=val, command="", result=True)
+    return jsonify(key=key_str, value=val, command="", result=True, error=""), 200
 
 @FLASK_APP.route("/keyval/<string:key_str>", methods=["DELETE"])
 def delete_value(key_str):
-    return jsonify(key=key_str, value=val, command="", result=True)
+    return jsonify(key=key_str, value=val, command="", result=True, error=""), 200
 
 @FLASK_APP.route("/md5/<string:data_to_hash>")
 def calc_md5(data_to_hash):
