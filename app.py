@@ -19,7 +19,7 @@ def post_value(key_str, val):
         return jsonify(key=key_str, value=val, command=cmd, result=False, error="Unable to add pair: I/O Error!"), 400
     return jsonify(key=key_str, value=val, command=cmd, result=True, error=""), 200
 
-@FLASK_APP.route("/keyval/<string:key>", methods=["GET"])
+@FLASK_APP.route("/keyval/<string:key_str>", methods=["GET"])
 def get_value(key_str):
     return jsonify(key=key_str, value=val, command="", result=True)
 
